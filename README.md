@@ -60,7 +60,16 @@ cc_model.json <--pre-trained model
 
 * If you wish to start your own model, simply delete it and start from **"Establishing Dataset"** to build your own. However your choice, you can test the models with the images download from the smaller data set of Shi-Gehler I've provided above (**Prerequisites**).
 
-* Now, in the script **test_illum.py**, modify the argument **image_name** to the name of the image you want to test in the **Color-casted** folder:
+* Now, you can easily test the model by running the **white_balancing.py**, for example: 
+
+```
+img = cv2.imread('0001.png')
+image_name = '0001'
+patch_size = (32, 32)
+img_white_balance = white_balancing(img, image_name, patch_size)
+```
+
+Remark: modify the argument **image_name** to the name of the image you want to test in the **Color-casted** folder:
 (remember to put the image inside the same folder of your test_illum.py, otherwise you have to include the path in the **image_name** argument)
 
 ```
