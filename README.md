@@ -15,20 +15,23 @@ Solving the color constancy porblem with CNN model proposed by [Simone_et_al](ht
 
 * If you prefer a fastest way to play with the model, you can skip directly to the part **"Running the tests"** where you can use my pre-trained CNN model to see how it works against the CC problem. 
 
+* If you have downloaded Shi-Gehler dataset, you will need to process these HDR images, I have uploaded the python file for this job under the name `preapare_dataset.py`. At the end of the file, replace the `path` variable with the directory to the **Shi_Gehler folder**. For example, `path = ...//Dataset//Shi_Gehler` and inside the **Shi_Gehler folder** you will need to create the subfolders which look like [this](https://imgur.com/a/tIfyEMp) and inside the **gt folder** you put the ground truth illuminant files and it looks like [this](https://imgur.com/a/CJ1ELtP). After that, you are ready to go.
+
 ### Establishing Dataset
 
-* The idea of the algorithm is training the CNN on the patches sampled from the image. To save you sometime I've done the job for you and you can download the sampling patches [here](https://drive.google.com/file/d/1kr_EHp5we6AkzdpKLCbeYhTxfMJPhceO/view?usp=sharing) ~ 4GB
-and put it inside your current working folder, like this:
+* The idea of the algorithm is training the CNN on the patches sampled from the image. 
 
-```
-.../CNN_model_ColorConstancy/patches
-```
-
-* And then, you can create your own train and test set by running the script 
+* First, you can create your own train and test set by running the script 
 
 ```
 generate_data.py
 ```
+You need to have the 'color-casted' images and corresponding ground truth illuminant matrix. We work with the Shi-Gehler dataset so these 'color-casted' images are the processed images from the original [HDR images](http://www.cs.sfu.ca/~colour/data/shi_gehler/) and the corresponding ground truth illuminant [here](http://www.cs.sfu.ca/~colour/data/shi_gehler/groundtruth_568.zip). If you have already processed the HDR images, you would have about 500+ 'color-casted' images. You will need to divide these image into two parts, one for training and one for testing, the division ratio is your own choice, for me, I chose 2/3 for training and 1/3 for testing. 
+
+Then, inside the `generate_data.py`, within the function `generate_train_data`, replace the `path` variable with the directory to your train set, for example: `path = 'C:\\Users\\...\\Shi_Gehler\\Train_set\\'`, and do the same for the function `generate_test_data` with the directory of your test set. And also, in the code `illum_mat = scipy.io.loadmat('GT_Illum_Mat\\' + mat_name, squeeze_me = True, struct_as_record = False);` replace the `'GT_Illum_Mat'` with the directory where you put the file 'real_illum_568.mat'. 
+
+After completed all the step above, you can generate train and test data of your own choice, I have given an example at the end of the `generate_data.py` file.
+
 * You can change the size of your train(test) set and number of train(test) ground-truth illuminants by simply changing these arguments:
 
 ```
