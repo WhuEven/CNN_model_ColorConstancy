@@ -30,13 +30,10 @@ def FCN(input_shape):
     
     pool8 = MaxPooling2D((3,3), strides = (2,2), name = 'pool8')(fire8.output);
     
-    print(pool8.get_shape());
-    
     fc1 = Conv2D(64, (6,6), strides= (1, 1), padding = 'same', name = 'fc1')(pool8);
     
     fc1 = Dropout(rate = 0.5)(fc1);
     
-    print(fc1.get_shape());
     
     if SEPERATE_CONFIDENCE:
         fc2 = Conv2D(4 , (1, 1), strides = (1, 1), padding = 'same', activation = 'relu', name = 'fc2')(fc1);
@@ -54,7 +51,6 @@ def FCN(input_shape):
         fc2 = Conv2D(3, (1, 1), strides = (1, 1), padding = 'same', name = 'fc2')(fc1);
     
     fc2 = Activation('relu')(fc2);
-    print(fc2.get_shape());
     
     fc2 = Conv2D(3, (15, 15), padding = 'valid', name = 'fc_pooling')(fc2);
     
@@ -71,7 +67,6 @@ def FCN(input_shape):
     
     illum_est = Lambda(norm)(fc2);
     
-    print(illum_est.get_shape());
     
     FCN_model = Model(inputs = vgg16_model.input, outputs = illum_est, name = 'FC4');
     
